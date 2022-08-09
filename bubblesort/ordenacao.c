@@ -23,6 +23,22 @@ void bubble(int *vetor, int size)
     }
   }
 
+void selection(int *vetor, int size)
+  {
+  for(int n = 0; n < size; n++)
+    {
+    int menor = n;
+    for(int m = menor; m < size; m++)
+      {
+      if(vetor[m] < vetor[menor])
+        {
+        menor = m;  
+        }
+      }
+    swap((vetor + n), (vetor + menor));
+    }
+  }
+
 void printVetor(const int *vetor, int size)
   {
   for(int n = 0; n < size; n++)
