@@ -10,23 +10,23 @@ int main()
 
   inicio = clock();
 
-  //size define o tamanho do vetor
+//SIZE DEFINE O TAMANHO DO VETOR A SER ALOCADO
 
-  int size = 100000, c = 0;
+  int size = 8, c = 0;
   int *vetor =(int *) malloc(size * sizeof(int));
   
-  //printf("SEM ORDENACAO: ");
+  printf("SEM ORDENACAO: ");
   while(c < size)
     {
-    *(vetor + c) = rand() % 10000;
-    //printf("[%d] ", *(vetor + c));
+    *(vetor + c) = rand() % 10;
+    printf("[%d] ", *(vetor + c));
     c++;
     }
   
-  //printf("\nCOM ORDENACAO: ");
-  //bubble(vetor, size);
   selection(vetor, size);
-  //printVetor(vetor, size);
+  
+  printf("\nCOM ORDENACAO: ");
+  printVetor(vetor, size);
 
   fim = clock();
   tempo = ((float)(fim - inicio) / CLOCKS_PER_SEC);
