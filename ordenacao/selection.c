@@ -12,7 +12,7 @@ int main()
 
 //SIZE DEFINE O TAMANHO DO VETOR A SER ALOCADO
 
-  int size = 8, c = 0;
+  int size = 10, c = 0;
   int *vetor =(int *) malloc(size * sizeof(int));
   
   printf("SEM ORDENACAO: ");
@@ -24,7 +24,6 @@ int main()
     }
   
   selection(vetor, size);
-  
   printf("\nCOM ORDENACAO: ");
   printVetor(vetor, size);
 

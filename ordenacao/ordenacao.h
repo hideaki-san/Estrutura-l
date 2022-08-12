@@ -2,9 +2,16 @@
 
 //Faz a troca dos valores no vetor
 void swap(int *n, int *m);
-//Faz a ordenacao fazendo a troca do menor valor adjacente
+
+//FAZ A COMPARACAO SEMPRE COM A POSICAO ADJACENTE 
+//CASO POSICAO ATUAL SEJA MAIOR QUE A PROXIMA OCORRE A TROCA
+//LEVA O MAIOR VALOR PARA A POSICAO FINAL
 void bubble(int *vetor, int size);
-//Armazena o menor valor do vetor e insere na posicao de menor valor nao modificado
+
+//FAZ A COMPARACAO DA POSICAO ATUAL COM TODAS AS OUTRAS
+//CASO POSICAO ATUAL SEJA MAIOR QUE ALGUM VALOR DO VETOR PERCORRIDO
+//MENOR VALOR E ARMAZENADO NA PRIMEIRA POSICAO DEPOIS DE MENOR VALOR ANTERIOR
 void selection(int *vetor, int size);
+
 //Faz a impressao ja ordenada do vetor
 void printVetor(const int *vetor, int size);

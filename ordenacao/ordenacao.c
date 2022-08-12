@@ -1,7 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include"ordenacao.h"
-
+#include<time.h>
 
 
 void swap(int *p, int *q)
@@ -14,16 +14,27 @@ void swap(int *p, int *q)
 
 void bubble(int *vetor, int size)
   {
+  time_t bub_init, bub_end;
+  float bub_tempo;
+  
   int troca = 0, varredura = 0, comparacao = 0;
+  
+  bub_init = clock();
+  
+    for(int c = 0; c < size; c++)
+      *(vetor + c) = rand() % 10000;
 
 //POSICAO DE COMPARACAO COM O VETOR
   for(int n = 0; n < size - 1; n++)
     {
-//PERCORRE O VETOR PARA COMPARAR POSICAO ADJACENTE
+
+//PERCORRE O VETOR SEMPRE COM UMA POSICAO A MENOS
+//ULTIMA POSICAO DE TROCA JA ESTA COM O MAIOR MAIOR VALOR
     for(int m = 0; m < (size - (1 + n)); m++)
       {
+
 //CASO SEJA MAIOR VALOR TROCA COM O PROXIMO
-//NA ULTIMO ESPACO FICARA O MAIOR NUMERO
+//NA ULTIMO POSICAO POSSIVEL FICARA O MAIOR NUMERO
       if(vetor[m] > vetor[m + 1])
         {
         swap(&vetor[m], &vetor[m + 1]);
@@ -33,36 +44,63 @@ void bubble(int *vetor, int size)
       }
     varredura++;
     }
-  printf("\n\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
+  
+  bub_end = clock();
+  bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
+
+  printf("\n:BUBBLE: ");
+  printf("\nTEMPO DE EXECUCAO: %f[s]", bub_tempo);
+  printf("\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
   }
 
 
 void selection(int *vetor, int size)
   {
+  time_t sel_init, sel_end;
+  float sel_tempo;
+
   int troca = 0, varredura = 0, comparacao = 0;
+  
+  sel_init = clock();
+
+  for(int c = 0; c < size; c++)
+    *(vetor + c) = rand() % 10000;
 
   for(int n = 0; n < size; n++)
     {
+
 //ARMAZENA A POSICAO QUE VAI SER COMPARADA COM O VETOR
     int menor = n;
-    for(int m = menor; m < size; m++)
+
+//FAZ COMPARACAO DO VETOR COM A POSICAO ARMAZENADA NO MENOR
+    for(int m = (menor + 1); m < size; m++)
       {
-//FAZ COMPARACAO COM A POSICAO ARMAZENADA ANTERIOR
+
 //CASO O VALOR DO VETOR QUE PERCORRE SEJA MENOR QUE O ARMAZENADO ANTERIOR
 //A MENOR POSICAO(ARMAZENADA) ATUALIZA COM A POSICAO NOVA DE MENOR VALOR
-      if(vetor[m] < vetor[menor])
+      if(vetor[menor] > vetor[m])
         {
         menor = m;
-        troca++; 
         }
       comparacao++;
       }
-//FAZ A TROCA NOS VALORES QUE ESTAO NA POSICAO DA MEMORIA
-//TROCA DA PRIMEIRA POSICAO QUE NAO FOI TROCADA AINDA  
-    swap((vetor + n), (vetor + menor));
-     varredura++;
+
+//FAZ A TROCA DOS VALORES DE 'MENOR' ATUALIZADO E DA POSICAO(em ordem 'n') QUE SERA TROCADA
+//CASO A REFERENCIA('n') SEJA A MESMA QUE O 'MENOR' NAO OCORRE TROCA
+    if(n != menor)
+      {
+      swap((vetor + n), (vetor + menor));
+      troca++; 
+      }
+    varredura++;
     }
-  printf("\n\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
+  
+  sel_end = clock();
+  sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
+
+  printf("\n:SELECTION: ");
+  printf("\nTEMPO DE EXECUCAO: %f[s]", sel_tempo);
+  printf("\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
   }
 
 
