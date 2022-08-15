@@ -12,7 +12,7 @@ void swap(int *p, int *q)
   }
 
 
-void bubble(int *vetor, int size)
+void bubble(int *vetor, int size, FILE *arq)
   {
   time_t bub_init, bub_end;
   float bub_tempo;
@@ -48,13 +48,13 @@ void bubble(int *vetor, int size)
   bub_end = clock();
   bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
 
-  printf("\n:BUBBLE: ");
-  printf("\nTEMPO DE EXECUCAO: %f[s]", bub_tempo);
-  printf("\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
+  fprintf(arq,"\n:BUBBLE: ");
+  fprintf(arq,"\nTEMPO DE EXECUCAO: %f[s]", bub_tempo);
+  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
   }
 
 
-void selection(int *vetor, int size)
+void selection(int *vetor, int size, FILE *arq)
   {
   time_t sel_init, sel_end;
   float sel_tempo;
@@ -97,10 +97,72 @@ void selection(int *vetor, int size)
   
   sel_end = clock();
   sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
+  
+  fprintf(arq,"\n:SELECTION: ");
+  fprintf(arq,"\nTEMPO DE EXECUCAO: %f[s]", sel_tempo);
+  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
+  }
 
-  printf("\n:SELECTION: ");
-  printf("\nTEMPO DE EXECUCAO: %f[s]", sel_tempo);
-  printf("\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", troca, comparacao, varredura);
+
+void merge(int *vetor, int inicio, int meio, int fim)
+  {
+  int metade1 = meio - inicio + 1;//obs
+  int metade2 = fim - meio;
+
+  int *subVet1, *subVet2;
+  
+  for(int n = 0; n < metade1; n++)
+    {
+    *(subVet1 + n) = *(vetor + (inicio + n));
+    }
+
+  for(int n = 0; n < metade2; n++)
+    {
+    *(subVet2 + n) = *(vetor + (meio + 1));//obs
+    }
+
+  int i = 0, f = 0, z = 0;
+  
+  while(i < metade1 && f < metade2)
+    {
+    if(*(subVet1 + i) <= *(subVet2 + f))
+      {
+      *(vetor + z) = *(subVet1 + i);
+      i++;
+      }
+    else
+      {
+      *(vetor + z) = *(subVet2 + f);
+      f++;
+      }
+    z++;
+    }
+
+  while(f < metade2)
+    {
+    *(vetor + z) = *(subVet2 + f);
+    f++;
+    z++;
+    }
+
+  while(i < metade1)
+    {
+    *(vetor + z) = *(subVet1 + i);
+    i++;
+    z++;
+    }
+  }
+
+
+int mergesort(int *vetor, int inicio, int fim)
+  {
+  if(inicio < fim)
+    {
+    int meio = inicio + (fim - inicio)/2;
+    mergesort(vetor, inicio, meio);
+    mergesort(vetor, meio+1, fim);
+    merge(vetor, inicio, meio, fim);
+    }
   }
 
 
