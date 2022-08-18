@@ -8,6 +8,10 @@ int main()
   float tempo;
   time_t inicio, fim;
 
+  FILE *arq;
+  
+  arq = fopen("dados_tempo_execucao.txt", "a");
+
   inicio = clock();
 
   int size = 8, c = 0;
@@ -21,7 +25,7 @@ int main()
     c++;
     }
   
-  bubble(vetor, size);
+  bubble(vetor, size, arq);
   
   printf("\nCOM ORDENACAO: ");
   printVetor(vetor, size);

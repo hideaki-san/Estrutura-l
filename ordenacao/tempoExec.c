@@ -16,7 +16,7 @@ int *merge_vetor =(int *)malloc(size * sizeof(int));
 
 bubble(bub_vetor, size, arq);
 selection(sel_vetor, size, arq);
-merg = mergesort(merge_vetor, i, f);
+mergesort(merge_vetor, i, f);
 
 
 free(bub_vetor);

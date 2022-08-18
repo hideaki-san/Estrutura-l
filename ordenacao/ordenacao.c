@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include"ordenacao.h"
 #include<time.h>
+#include<math.h>
 
 
 void swap(int *p, int *q)
@@ -107,6 +108,7 @@ void selection(int *vetor, int size, FILE *arq)
 //PARAMETROS REFERENTES A POSICAO DO VETOR
 void merge(int *vetor, int inicio, int meio, int fim)
   {
+    
 //[0][1][2][3][4][5][6][7]
 //pela posicao do no vetor m1 = 4 - 0 + 1 ?
 //m1 = 5 (posicao)??
@@ -167,13 +169,15 @@ void merge(int *vetor, int inicio, int meio, int fim)
 //O 'inicio' E 'fim' REFERENTE A POSICAO NO VETOR
 int mergesort(int *vetor, int inicio, int fim)
   {
+int meio;
   if(inicio < fim)
     {
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
 //GERA UM NOVO 'meio' E INICIA MAIS DUAS INSTANCIAS COM DOIS SUBVETORES DISTINTOS
-    int meio = inicio + (fim - inicio)/2;
+//'floor' ARREDONDA PARA BAIXO
+    meio = floor(inicio + (fim - inicio)/2);
 //FAZ O MESMO PROCESSO PARA AS DUAS METADES?
-    mergesort(vetor, inicio, meio);    
+    mergesort(vetor, inicio, meio);
     mergesort(vetor, meio+1, fim);
 //PROCESSO INVERSO ORDENANDO OS VALORES??
     merge(vetor, inicio, meio, fim);
