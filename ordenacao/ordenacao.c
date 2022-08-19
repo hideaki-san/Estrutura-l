@@ -108,11 +108,6 @@ void selection(int *vetor, int size, FILE *arq)
 //PARAMETROS REFERENTES A POSICAO DO VETOR
 void merge(int *vetor, int inicio, int meio, int fim)
   {
-    
-//[0][1][2][3][4][5][6][7]
-//pela posicao do no vetor m1 = 4 - 0 + 1 ?
-//m1 = 5 (posicao)??
-
   int m1 = meio - inicio + 1;//obs
   int m2 = fim - meio;
 
@@ -163,6 +158,8 @@ void merge(int *vetor, int inicio, int meio, int fim)
     i++;
     z++;
     }
+  free(subVet1);
+  free(subVet2);
   }
 
 
@@ -173,14 +170,21 @@ int meio;
   if(inicio < fim)
     {
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
-//GERA UM NOVO 'meio' E INICIA MAIS DUAS INSTANCIAS COM DOIS SUBVETORES DISTINTOS
-//'floor' ARREDONDA PARA BAIXO
-    meio = floor(inicio + (fim - inicio)/2);
-//FAZ O MESMO PROCESSO PARA AS DUAS METADES?
+//GERA UM NOVO 'meio' E INICIA NOVAMENTE APENAS A PRIMEIRA FUNCAO
+//REPETE ATE VETOR COM VETOR UMA POSICAO('fim' = 'inicio') 
+    meio = inicio + (fim - inicio)/2;
+
     mergesort(vetor, inicio, meio);
+//DEPOIS DE CHEGAR NO VETOR DE UMA POSICAO
+//EXECUTA merge COMPARANDO AS POSICOES DOS VETORES
     mergesort(vetor, meio+1, fim);
-//PROCESSO INVERSO ORDENANDO OS VALORES??
+//APOS merge SER EXECUTADO A FUNCAO TERMINA E VOLTAMOS UM mergesort ANTES EXECUTADO
+//COM ESSA VOLTA, O SEGUNDO mergesort EXECUTA FAZENDO O PROCESSO PARA A OUTRA METADE
+//ASSIM NA VOLTA DO SEGUNDO mergesort A FUNCAO merge E CHAMADA NOVAMENTE
+//REALIZANDO A ORDENACAO DO VETOR COM AS DUAS METADES
+//E ASSIM VOLTANDO NOVAMENTE PARA UM mergesort DA FUNCAO CHAMADA ANTERIORMENTE 
     merge(vetor, inicio, meio, fim);
+//TERMINA QUANDO A CHAMDA VOLTA PARA A PRIMEIRA mergesort QUE FOI CHAMADA
     }
   }
 

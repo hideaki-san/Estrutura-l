@@ -5,15 +5,15 @@ void swap(int *n, int *m);
 
 //FAZ A COMPARACAO SEMPRE COM A POSICAO ADJACENTE 
 //CASO POSICAO ATUAL SEJA MAIOR QUE A PROXIMA OCORRE A TROCA
-//LEVA O MAIOR VALOR PARA A POSICAO FINAL
+//LEVA O MAIOR VALOR PARA A POSICAO FINAL ONDE ELE SEJA O MAIOR
 void bubble(int *vetor, int size, FILE *arq);
 
 //FAZ A COMPARACAO DA POSICAO ATUAL COM TODAS AS OUTRAS
 //CASO POSICAO ATUAL SEJA MAIOR QUE ALGUM VALOR DO VETOR PERCORRIDO
-//MENOR VALOR E ARMAZENADO NA PRIMEIRA POSICAO DEPOIS DE MENOR VALOR ANTERIOR
+//MENOR VALOR VAI PARA A PRIMEIRA POSICAO EM QUE ELE SEJA O MENOR 
 void selection(int *vetor, int size, FILE *arq);
 
 void merge(int *vetor, int inicio, int meio, int fim);
 
-//Faz a impressao ja ordenada do vetor
+//Faz a impressao do vetor
 void printVetor(const int *vetor, int size);
