@@ -147,7 +147,7 @@ printf("\nvalor m1 = %d, m2 = %d", m1, m2);
   for(int n = 0; n < m1; n++)
   {
   *(subVet1 + n) = *(vetor + (inicio + n));
-  printf("\nsubVet1 = %d  vetor = %d", *(subVet1 + n), *(vetor + (inicio + n)));
+  printf("\nvetor = %d -> subVet1 = %d", *(vetor + (inicio + n)), *(subVet1 + n));
   }
 //VETOR DE REFERENCIA PARA A SEGUNDA METADE
 //RECEBE OS VALORES DO VETOR PRINCIPAL PELO COMPRIMENTO 'm2'
@@ -155,7 +155,7 @@ printf("\nvalor m1 = %d, m2 = %d", m1, m2);
   for(int n = 0; n < m2; n++)  
   {
   *(subVet2 + n) = *(vetor + ((meio + 1) + n));
-  printf("\nsubVet2 = %d  vetor = %d", *(subVet2 + n), *(vetor + ((meio + 1) + n)));
+  printf("\nvetor = %d -> subVet2 = %d", *(vetor + ((meio + 1) + n)), *(subVet2 + n));
   }
 /*
 VARIAVEIS DE CONTROLE
@@ -163,7 +163,10 @@ i(POSICAO DE REFERENCIA PARA A PRIMEIRA METADE)
 f(POSICAO DE REFERENCIA PARA A SEGUNDA METADE)
 z(POSICAO DE REFERENCIA PARA ATRIBUIR VALORES PARA O VETOR PRINCIPAL)
 */
-  int i = 0, f = 0, z = 0;
+
+//ERRO ANTERIOR REFERENTE AO 'z = 0', QUANDO A OUTRA METADE ENTRAVA NO MERGE
+//A POSICAO ERA DUPLICADA PARA A PRIMEIRA POSICAO[0] EM VEZ DA POSICAO REFERENTE AO INCIO
+  int i = 0, f = 0, z = inicio;
 
 //ATE QUE UM DOS VETORES TERMINE(POSICAO DE REFERENCIA = PARAMETRO DE COMPRIMENTO)
   while(i < m1 && f < m2)
@@ -178,15 +181,15 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
     if(*(subVet1 + i) <= *(subVet2 + f))
       {
       *(vetor + z) = *(subVet1 + i);
-      printf("\nvetor[%d] = subVet1[%d]", z, i);
-      printf("\nvetor = %d | subVet1 = %d", *(vetor + z), *(subVet1 + i));
+      printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
+      printf("\nsubVet1 -> vetor[%d] = %d", z, *(vetor + z));
       i++;
       }
     else
       {
       *(vetor + z) = *(subVet2 + f);
-      printf("\nvetor principal[%d] = subVet2[%d]", z, i);
-      printf("\nvetor = %d | subVet2 = %d", *(vetor + z), *(subVet1 + f));
+      printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
+      printf("\nsubVet2 -> vetor[%d] = %d", z, *(vetor + z));
       f++;
       }
 //SEMPRE QUE VALOR NA POSICAO 'z' DO VETOR PRINCIPAL FOR ATRIBUIDO
@@ -210,6 +213,9 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
     z++;
     }
 
+  printf("\n\n");
+  printVetor(vetor, (fim+1));
+
   free(subVet1);
   free(subVet2);
   }
@@ -227,7 +233,7 @@ int meio;
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
 //GERA UM NOVO 'meio' E INICIA NOVAMENTE APENAS A PRIMEIRA FUNCAO
     meio = inicio + (fim - inicio)/2;
-    printf("\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
+   
     mergesort(vetor, inicio, meio);
     mergesort(vetor, meio+1, fim);
 /*
@@ -239,6 +245,7 @@ ASSIM NA VOLTA DO SEGUNDO mergesort A FUNCAO merge E CHAMADA NOVAMENTE
 REALIZANDO A ORDENACAO DO VETOR COM AS DUAS METADES
 E ASSIM VOLTANDO NOVAMENTE PARA UM mergesort DA FUNCAO CHAMADA ANTERIORMENTE 
 */
+    printf("\n\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
     merge(vetor, inicio, meio, fim);
 //TERMINA QUANDO A CHAMDA VOLTA PARA A PRIMEIRA mergesort QUE FOI CHAMADA
     }

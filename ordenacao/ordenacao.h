@@ -1,5 +1,7 @@
 //ASSINATURAS
 
+typedef struct DADOS dados;
+
 //Faz a troca dos valores no vetor
 void swap(int *n, int *m);
 
@@ -12,6 +14,8 @@ void bubble(int *vetor, int size, FILE *arq);
 //CASO POSICAO ATUAL SEJA MAIOR QUE ALGUM VALOR DO VETOR PERCORRIDO
 //MENOR VALOR VAI PARA A PRIMEIRA POSICAO EM QUE ELE SEJA O MENOR 
 void selection(int *vetor, int size, FILE *arq);
+
+int mergesort(int *vetor, int inicio, int fim);
 
 void merge(int *vetor, int inicio, int meio, int fim);
 
