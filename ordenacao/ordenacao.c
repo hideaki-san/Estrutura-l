@@ -9,7 +9,6 @@ struct DADOS
   int troca;
   int varredura;
   int comparacao;
-  int divisao;
   }DADOS;
 
 
@@ -57,9 +56,7 @@ void bubble(int *vetor, int size, FILE *arq)
   bub_end = clock();
   bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
 
-  fprintf(arq,"\n:BUBBLE: ");
-  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]", troca, comparacao, varredura);
-  fprintf(arq,"\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
+  fprintf(arq,"\nBUBBLE;%d;%f;%d;%d;%d", size, bub_tempo, troca, comparacao, varredura);
   printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
   }
 
@@ -108,9 +105,7 @@ void selection(int *vetor, int size, FILE *arq)
   sel_end = clock();
   sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
   
-  fprintf(arq,"\n:SELECTION: ");
-  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]", troca, comparacao, varredura);
-  fprintf(arq,"\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
+  fprintf(arq,"\nSELECTION;%d;%f;%d;%d;%d", size, sel_tempo, troca, comparacao, varredura);
   printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
   }
 
@@ -212,7 +207,6 @@ int meio;
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
 //GERA UM NOVO 'meio' E INICIA NOVAMENTE A RECURSIVIDADE
     meio = inicio + (fim - inicio)/2;
-    dado->divisao++;
     mergesort(vetor, inicio, meio, dado);
     mergesort(vetor, meio+1, fim, dado);
 /*
@@ -232,10 +226,9 @@ dados *dadosCriar()
   return merge_inf;
   }
 
-void dadosPrint(dados *dado, FILE *arq)
+void dadosPrint(dados *dado, FILE *arq, float tempo, int size)
   {
-  fprintf(arq,"\n:MERGE:");
-  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\ndivisao[%d]", dado->troca, dado->comparacao, dado->varredura, dado->divisao);
+  fprintf(arq,"\nMERGE;%d;%f;%d;%d;%d", size, tempo, dado->troca, dado->comparacao, dado->varredura);
   }
 
 void dadosLiberar(dados *dado)

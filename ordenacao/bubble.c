@@ -7,12 +7,10 @@ int main()
   {
   FILE *arq;
   
-  arq = fopen("dados_tempo_execucao.txt", "a");
+  arq = fopen("dados_execucao.csv", "a");
   
-  int size = 1000000, c = 0;
+  int size = 10000, c = 0;
   int *vetor =(int *) malloc(size * sizeof(int));
-  
-  fprintf(arq,"\n[TAMANHO DO VETOR: %d]\n", size);
 
   while(c < size)
     {
