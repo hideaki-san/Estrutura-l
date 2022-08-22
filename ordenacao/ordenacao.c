@@ -11,14 +11,12 @@ struct DADOS
   int comparacao;
   }DADOS;
 
-
 void swap(int *p, int *q)
   {
   int aux = *p;
   *p = *q;
   *q = aux;
   }
-
 
 void bubble(int *vetor, int size, FILE *arq)
   {
@@ -56,10 +54,9 @@ void bubble(int *vetor, int size, FILE *arq)
   bub_end = clock();
   bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
 
-  fprintf(arq,"\nBUBBLE;%d;%f;%d;%d;%d", size, bub_tempo, troca, comparacao, varredura);
+  fprintf(arq,"\nBUBBLE ; %d ; %f ; %d ; %d ; %d ", size, bub_tempo, troca, comparacao, varredura);
   printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
   }
-
 
 void selection(int *vetor, int size, FILE *arq)
   {
@@ -105,10 +102,9 @@ void selection(int *vetor, int size, FILE *arq)
   sel_end = clock();
   sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
   
-  fprintf(arq,"\nSELECTION;%d;%f;%d;%d;%d", size, sel_tempo, troca, comparacao, varredura);
+  fprintf(arq,"\nSELECTION ; %d ; %f ; %d ; %d ; %d ", size, sel_tempo, troca, comparacao, varredura);
   printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
   }
-
 
 //PARAMETROS REFERENTES A POSICAO DO VETOR
 void merge(int *vetor, int inicio, int meio, int fim, dados *dado)
@@ -195,7 +191,6 @@ z(POSICAO DE REFERENCIA PARA O VETOR PRINCIPAL)
   free(subVet2);
   }
 
-
 //O 'inicio' E 'fim' REFERENTE A POSICAO NO VETOR
 int mergesort(int *vetor, int inicio, int fim, dados *dado)
   {
@@ -228,7 +223,7 @@ dados *dadosCriar()
 
 void dadosPrint(dados *dado, FILE *arq, float tempo, int size)
   {
-  fprintf(arq,"\nMERGE;%d;%f;%d;%d;%d", size, tempo, dado->troca, dado->comparacao, dado->varredura);
+  fprintf(arq,"\nMERGE ; %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
   }
 
 void dadosLiberar(dados *dado)
@@ -236,7 +231,7 @@ void dadosLiberar(dados *dado)
   free(dado);
   dado=NULL;
   }
-
+  
 void printVetor(const int *vetor, int size)
   {
   for(int n = 0; n < size; n++)
