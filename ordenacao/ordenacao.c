@@ -9,7 +9,9 @@ struct DADOS
   int troca;
   int varredura;
   int comparacao;
+  int divisao;
   }DADOS;
+
 
 void swap(int *p, int *q)
   {
@@ -24,11 +26,7 @@ void bubble(int *vetor, int size, FILE *arq)
   time_t bub_init, bub_end;
   float bub_tempo;
   
-  dados data;
-
-  data.troca = 0;
-  data.varredura = 0; 
-  data.comparacao = 0;
+  int troca = 0, varredura = 0, comparacao = 0;
   
   bub_init = clock();
   
@@ -49,19 +47,20 @@ void bubble(int *vetor, int size, FILE *arq)
       if(vetor[m] > vetor[m + 1])
         {
         swap(&vetor[m], &vetor[m + 1]);
-        data.troca++;
+        troca++;
         }
-      data.comparacao++;
+      comparacao++;
       }
-    data.varredura++;
+    varredura++;
     }
   
   bub_end = clock();
   bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
 
   fprintf(arq,"\n:BUBBLE: ");
-  fprintf(arq,"\nTEMPO DE EXECUCAO: %f[s]", bub_tempo);
-  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", data.troca, data.comparacao, data.varredura);
+  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]", troca, comparacao, varredura);
+  fprintf(arq,"\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
+  printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
   }
 
 
@@ -70,11 +69,7 @@ void selection(int *vetor, int size, FILE *arq)
   time_t sel_init, sel_end;
   float sel_tempo;
 
-  dados data;
-
-  data.troca = 0;
-  data.varredura = 0; 
-  data.comparacao = 0;
+  int troca = 0, varredura = 0, comparacao = 0;
   
   sel_init = clock();
 
@@ -97,7 +92,7 @@ void selection(int *vetor, int size, FILE *arq)
         {
         menor = m;
         }
-      data.comparacao++;
+      comparacao++;
       }
 
 //FAZ A TROCA DOS VALORES DE 'MENOR' ATUALIZADO E DA POSICAO(em ordem 'n') QUE SERA TROCADA
@@ -105,22 +100,23 @@ void selection(int *vetor, int size, FILE *arq)
     if(n != menor)
       {
       swap((vetor + n), (vetor + menor));
-      data.troca++; 
+      troca++; 
       }
-    data.varredura++;
+    varredura++;
     }
   
   sel_end = clock();
   sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
   
   fprintf(arq,"\n:SELECTION: ");
-  fprintf(arq,"\nTEMPO DE EXECUCAO: %f[s]", sel_tempo);
-  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\n", data.troca, data.comparacao, data.varredura);
+  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]", troca, comparacao, varredura);
+  fprintf(arq,"\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
+  printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
   }
 
 
 //PARAMETROS REFERENTES A POSICAO DO VETOR
-void merge(int *vetor, int inicio, int meio, int fim)
+void merge(int *vetor, int inicio, int meio, int fim, dados *dado)
   {
 /*
 'm1' FAZ PARAMETRO PARA A PRIMEIRA METADE DO VETOR
@@ -140,14 +136,14 @@ POIS EM POSICAO 'inicio' = 0 MAS EM COMPRIMETO ESTE E A PRIMEIRA POSICAO
   subVet1 =(int *)calloc(m1, sizeof(int));
   subVet2 =(int *)calloc(m2, sizeof(int));
 
-printf("\nvalor m1 = %d, m2 = %d", m1, m2);
+  //printf("\nvalor m1 = %d, m2 = %d", m1, m2);
 //VETOR DE REFERENCIA PARA A PRIMEIRA METADE
 //RECEBE OS VALORES DO VETOR PRINCIPAL PELO COMPRIMENTO 'm1'
 //NA POSICAO DE 'inicio' + 'n'(DO 0 ATE 'm1 - 1') 
   for(int n = 0; n < m1; n++)
   {
   *(subVet1 + n) = *(vetor + (inicio + n));
-  printf("\nvetor = %d -> subVet1 = %d", *(vetor + (inicio + n)), *(subVet1 + n));
+  //printf("\nvetor = %d -> subVet1 = %d", *(vetor + (inicio + n)), *(subVet1 + n));
   }
 //VETOR DE REFERENCIA PARA A SEGUNDA METADE
 //RECEBE OS VALORES DO VETOR PRINCIPAL PELO COMPRIMENTO 'm2'
@@ -155,7 +151,7 @@ printf("\nvalor m1 = %d, m2 = %d", m1, m2);
   for(int n = 0; n < m2; n++)  
   {
   *(subVet2 + n) = *(vetor + ((meio + 1) + n));
-  printf("\nvetor = %d -> subVet2 = %d", *(vetor + ((meio + 1) + n)), *(subVet2 + n));
+  //printf("\nvetor = %d -> subVet2 = %d", *(vetor + ((meio + 1) + n)), *(subVet2 + n));
   }
 /*
 VARIAVEIS DE CONTROLE
@@ -171,6 +167,7 @@ z(POSICAO DE REFERENCIA PARA ATRIBUIR VALORES PARA O VETOR PRINCIPAL)
 //ATE QUE UM DOS VETORES TERMINE(POSICAO DE REFERENCIA = PARAMETRO DE COMPRIMENTO)
   while(i < m1 && f < m2)
     {
+    dado->comparacao++;
 /*
 COMPARACAO FEITA PARA ATRIBUIR O MENOR VALOR AO VETOR PRINCIPAL
 ATRIBUICAO PELO 'subVet1' :: POSICAO 'i' FOI ATRIBUIDA logo:
@@ -181,15 +178,17 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
     if(*(subVet1 + i) <= *(subVet2 + f))
       {
       *(vetor + z) = *(subVet1 + i);
-      printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
-      printf("\nsubVet1 -> vetor[%d] = %d", z, *(vetor + z));
+      dado->troca++;
+      //printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
+      //printf("\nsubVet1 -> vetor[%d] = %d", z, *(vetor + z));
       i++;
       }
     else
       {
       *(vetor + z) = *(subVet2 + f);
-      printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
-      printf("\nsubVet2 -> vetor[%d] = %d", z, *(vetor + z));
+      dado->troca++;
+      //printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
+      //printf("\nsubVet2 -> vetor[%d] = %d", z, *(vetor + z));
       f++;
       }
 //SEMPRE QUE VALOR NA POSICAO 'z' DO VETOR PRINCIPAL FOR ATRIBUIDO
@@ -202,6 +201,7 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
   while(f < m2)
     {
     *(vetor + z) = *(subVet2 + f);
+    dado->troca++;
     f++;
     z++;
     }
@@ -209,20 +209,21 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
   while(i < m1)
     {
     *(vetor + z) = *(subVet1 + i);
+    dado->troca++;
     i++;
     z++;
     }
 
-  printf("\n\n");
-  printVetor(vetor, (fim+1));
-
+  //printf("\n\n");
+  //printVetor(vetor, (fim+1));
+  dado->varredura++;
   free(subVet1);
   free(subVet2);
   }
 
 
 //O 'inicio' E 'fim' REFERENTE A POSICAO NO VETOR
-int mergesort(int *vetor, int inicio, int fim)
+int mergesort(int *vetor, int inicio, int fim, dados *dado)
   {
 int meio;
 
@@ -233,9 +234,9 @@ int meio;
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
 //GERA UM NOVO 'meio' E INICIA NOVAMENTE APENAS A PRIMEIRA FUNCAO
     meio = inicio + (fim - inicio)/2;
-   
-    mergesort(vetor, inicio, meio);
-    mergesort(vetor, meio+1, fim);
+    dado->divisao++;
+    mergesort(vetor, inicio, meio, dado);
+    mergesort(vetor, meio+1, fim, dado);
 /*
 DEPOIS DE CHEGAR NO VETOR DE UMA POSICAO
 EXECUTA merge COMPARANDO AS POSICOES DOS VETORES    
@@ -245,12 +246,29 @@ ASSIM NA VOLTA DO SEGUNDO mergesort A FUNCAO merge E CHAMADA NOVAMENTE
 REALIZANDO A ORDENACAO DO VETOR COM AS DUAS METADES
 E ASSIM VOLTANDO NOVAMENTE PARA UM mergesort DA FUNCAO CHAMADA ANTERIORMENTE 
 */
-    printf("\n\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
-    merge(vetor, inicio, meio, fim);
+    //printf("\n\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
+    merge(vetor, inicio, meio, fim, dado);
 //TERMINA QUANDO A CHAMDA VOLTA PARA A PRIMEIRA mergesort QUE FOI CHAMADA
     }
   }
 
+dados *dadosCriar()
+  {
+  dados *merge_inf = (dados *)calloc(1, sizeof(dados));
+  return merge_inf;
+  }
+
+void dadosPrint(dados *dado, FILE *arq)
+  {
+  fprintf(arq,"\n:MERGE:");
+  fprintf(arq,"\ntroca[%d]\ncomapracao[%d]\nvarredura[%d]\ndivisao[%d]", dado->troca, dado->comparacao, dado->varredura, dado->divisao);
+  }
+
+void dadosLiberar(dados *dado)
+  {
+  free(dado);
+  dado=NULL;
+  }
 
 void printVetor(const int *vetor, int size)
   {
