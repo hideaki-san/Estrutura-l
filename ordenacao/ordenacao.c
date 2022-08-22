@@ -119,62 +119,43 @@ void selection(int *vetor, int size, FILE *arq)
 void merge(int *vetor, int inicio, int meio, int fim, dados *dado)
   {
 /*
-'m1' FAZ PARAMETRO PARA A PRIMEIRA METADE DO VETOR
+'m1' e 'm'2' FAZEM PARAMETRO PARA AS METADES DO VETOR
 PARAMETRO DE COMPRIMENTO DO VETOR E NAO DA POSICAO
-POR ISSO +1 E ADICIONADO
-POIS EM POSICAO 'inicio' = 0 MAS EM COMPRIMETO ESTE E A PRIMEIRA POSICAO
 */
   int m1 = meio - inicio + 1;
-
-//'m2' FAZ PARAMETRO PARA A OUTRA METADE
   int m2 = fim - meio;
 
 //REFERENCIAS PARA ORDENAR E ATRIBUIR AO VETOR PRINCIPAL
   int *subVet1, *subVet2;
 
-//ALOCA TAMANHO NA MEMORIA REFERENTE AOS PARAMETROS 'm1' e 'm2'
   subVet1 =(int *)calloc(m1, sizeof(int));
   subVet2 =(int *)calloc(m2, sizeof(int));
 
   //printf("\nvalor m1 = %d, m2 = %d", m1, m2);
-//VETOR DE REFERENCIA PARA A PRIMEIRA METADE
-//RECEBE OS VALORES DO VETOR PRINCIPAL PELO COMPRIMENTO 'm1'
-//NA POSICAO DE 'inicio' + 'n'(DO 0 ATE 'm1 - 1') 
+
   for(int n = 0; n < m1; n++)
-  {
-  *(subVet1 + n) = *(vetor + (inicio + n));
+    *(subVet1 + n) = *(vetor + (inicio + n));
   //printf("\nvetor = %d -> subVet1 = %d", *(vetor + (inicio + n)), *(subVet1 + n));
-  }
-//VETOR DE REFERENCIA PARA A SEGUNDA METADE
-//RECEBE OS VALORES DO VETOR PRINCIPAL PELO COMPRIMENTO 'm2'
-//NA POSICAO DE 'meio' + 1(POSICAO SEGUINTE AO 'meio' DO OUTRO VETOR) + 'n'(do 0 ATE 'm2 -1')
+
   for(int n = 0; n < m2; n++)  
-  {
-  *(subVet2 + n) = *(vetor + ((meio + 1) + n));
+    *(subVet2 + n) = *(vetor + ((meio + 1) + n));
   //printf("\nvetor = %d -> subVet2 = %d", *(vetor + ((meio + 1) + n)), *(subVet2 + n));
-  }
+
 /*
 VARIAVEIS DE CONTROLE
 i(POSICAO DE REFERENCIA PARA A PRIMEIRA METADE)
 f(POSICAO DE REFERENCIA PARA A SEGUNDA METADE)
-z(POSICAO DE REFERENCIA PARA ATRIBUIR VALORES PARA O VETOR PRINCIPAL)
+z(POSICAO DE REFERENCIA PARA O VETOR PRINCIPAL)
 */
-
-//ERRO ANTERIOR REFERENTE AO 'z = 0', QUANDO A OUTRA METADE ENTRAVA NO MERGE
-//A POSICAO ERA DUPLICADA PARA A PRIMEIRA POSICAO[0] EM VEZ DA POSICAO REFERENTE AO INCIO
+  
   int i = 0, f = 0, z = inicio;
 
-//ATE QUE UM DOS VETORES TERMINE(POSICAO DE REFERENCIA = PARAMETRO DE COMPRIMENTO)
   while(i < m1 && f < m2)
     {
     dado->comparacao++;
-/*
-COMPARACAO FEITA PARA ATRIBUIR O MENOR VALOR AO VETOR PRINCIPAL
-ATRIBUICAO PELO 'subVet1' :: POSICAO 'i' FOI ATRIBUIDA logo:
-i++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
-ATRIBUICAO PELO 'subVet2' :: POSICAO 'f' FOI ATRIBUIDA logo:
-f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
-*/
+  
+  //TROCA REALIZADA PARA MENOR VALOR DA POSICAO DE REFERENCIA
+
     if(*(subVet1 + i) <= *(subVet2 + f))
       {
       *(vetor + z) = *(subVet1 + i);
@@ -190,9 +171,7 @@ f++(PROXIMA POSICAO DE REFERENCIA DESSA METADE DO VETOR)
       //printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
       //printf("\nsubVet2 -> vetor[%d] = %d", z, *(vetor + z));
       f++;
-      }
-//SEMPRE QUE VALOR NA POSICAO 'z' DO VETOR PRINCIPAL FOR ATRIBUIDO
-//z++(PROXIMA POSICAO DO VETOR PRINCIPAL) 
+      } 
     z++;
     }
 
@@ -227,28 +206,23 @@ int mergesort(int *vetor, int inicio, int fim, dados *dado)
   {
 int meio;
 
-//REPETE ATE VETOR COM VETOR UMA POSICAO('fim' = 'inicio') 
   if(inicio < fim)
     {
 
 //PARA TODA VEZ QUE UMA INSTANCIA DESSA FUNCAO E CHAMDA
-//GERA UM NOVO 'meio' E INICIA NOVAMENTE APENAS A PRIMEIRA FUNCAO
+//GERA UM NOVO 'meio' E INICIA NOVAMENTE A RECURSIVIDADE
     meio = inicio + (fim - inicio)/2;
     dado->divisao++;
     mergesort(vetor, inicio, meio, dado);
     mergesort(vetor, meio+1, fim, dado);
 /*
-DEPOIS DE CHEGAR NO VETOR DE UMA POSICAO
-EXECUTA merge COMPARANDO AS POSICOES DOS VETORES    
-APOS merge SER EXECUTADO A FUNCAO TERMINA E VOLTAMOS UM mergesort ANTES EXECUTADO
-COM ESSA VOLTA, O SEGUNDO mergesort EXECUTA FAZENDO O PROCESSO PARA A OUTRA METADE
-ASSIM NA VOLTA DO SEGUNDO mergesort A FUNCAO merge E CHAMADA NOVAMENTE
-REALIZANDO A ORDENACAO DO VETOR COM AS DUAS METADES
-E ASSIM VOLTANDO NOVAMENTE PARA UM mergesort DA FUNCAO CHAMADA ANTERIORMENTE 
+QUANDO 'inicio = fim' A FUNCAO TERMINA SUA INSTANCIA E RETORNA PARA INSTANCIA ANTERIOR
+NESSE RETORNO O SEGUNDO 'mergesort' E CHAMADO REALIZANDO O MESMO CAMINHO DA LINHA ACIMA  
+TERMINANDO AS DUAS METADES O 'merge' E CHAMADO REALIZANDO ASSIM A ORDENACAO ENTRE AS DUAS 'mergesort' DESSA INSTANCIA
+O PROCESSO SE REPETE ATE TODAS AS INSTANCIAS SEREM REALIZADAS E TERMINAR O PRIMEIRO 'mergesort' CHAMADO, COM O VETOR ORDENADO
 */
     //printf("\n\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
     merge(vetor, inicio, meio, fim, dado);
-//TERMINA QUANDO A CHAMDA VOLTA PARA A PRIMEIRA mergesort QUE FOI CHAMADA
     }
   }
 
