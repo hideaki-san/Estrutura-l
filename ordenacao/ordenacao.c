@@ -215,6 +215,45 @@ O PROCESSO SE REPETE ATE TODAS AS INSTANCIAS SEREM REALIZADAS E TERMINAR O PRIME
     }
   }
 
+int quick(int *vetor, int inicio, int fim)
+  {
+  int esq = inicio, dir = fim, pivo = *(vetor + inicio);
+  printf("\nesq = %d, dir = %d, pivo = %d\n", esq, dir, pivo);
+  while(esq < dir)
+    {
+    while(*(vetor + esq) <= pivo)
+    {
+    esq++;
+    printf("[esq++ = %d] ", esq);
+    }
+    
+    while(*(vetor + dir) > pivo)
+    {
+    dir--;
+    printf("[dir-- = %d] ", dir);
+    }
+
+    if(esq < dir)
+      swap((vetor + dir), (vetor + esq));  
+    }
+  
+  printf("\nesq = %d, dir = %d, pivo = %d", esq, dir, pivo);
+
+  *(vetor + inicio) = *(vetor + dir);
+  *(vetor + dir) = pivo;
+  return dir;
+  }
+
+void quicksort(int *vetor, int inicio, int fim)
+  {
+  if(inicio < fim)
+    {
+    int pivo = quick(vetor, inicio, fim);
+    quicksort(vetor, inicio, pivo - 1);
+    quicksort(vetor, pivo + 1, fim);
+    }
+  }
+
 dados *dadosCriar()
   {
   dados *merge_inf = (dados *)calloc(1, sizeof(dados));

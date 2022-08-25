@@ -19,6 +19,10 @@ int mergesort(int *vetor, int inicio, int fim, dados *dado);
 
 void merge(int *vetor, int inicio, int meio, int fim, dados *dado);
 
+int quick(int *vetor, int inicio, int fim);
+
+void quicksort(int *vetor, int inicio, int fim);
+
 dados *dadosCriar();
 void dadosPrint(dados *dado, FILE *arq, float tempo, int size);
 void dadosLiberar(dados *dado);

@@ -12,7 +12,7 @@ float merg_tempo;
 dados *merge_inf;
 merge_inf = dadosCriar();
 
-int size = 100000; 
+int size = 100000000; 
 int inicio = 0, fim = (size - 1);
 
 arq = fopen("dados_execucao.csv", "a");

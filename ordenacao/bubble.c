@@ -9,7 +9,7 @@ int main()
   
   arq = fopen("dados_execucao.csv", "a");
 
-  int size = 100000, c = 0;
+  int size = 100, c = 0;
   int *vetor =(int *) malloc(size * sizeof(int));
 
   while(c < size)
