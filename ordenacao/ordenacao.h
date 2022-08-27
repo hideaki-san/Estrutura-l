@@ -15,16 +15,21 @@ void bubble(int *vetor, int size, FILE *arq);
 //MENOR VALOR VAI PARA A PRIMEIRA POSICAO EM QUE ELE SEJA O MENOR 
 void selection(int *vetor, int size, FILE *arq);
 
+//FAZ A SEPARACAO DO VETOR ATE TAMANHO DO VETOR = 1
 int mergesort(int *vetor, int inicio, int fim, dados *dado);
 
+//CHAMADA PARA ORDENAR OS VETORES DA INSTANCIA QUE O PROCESSO ESTIVER
 void merge(int *vetor, int inicio, int meio, int fim, dados *dado);
 
-int quick(int *vetor, int inicio, int fim);
 
-void quicksort(int *vetor, int inicio, int fim);
+void quicksort(int *vetor, int inicio, int fim, dados *dado);
 
+int quick(int *vetor, int inicio, int fim, dados *dado);
+
+//DADOS DAS TROCAS, VARREDURAS E COMPARACOES
 dados *dadosCriar();
 void dadosPrint(dados *dado, FILE *arq, float tempo, int size);
 void dadosLiberar(dados *dado);
+
 //Faz a impressao do vetor
 void printVetor(const int *vetor, int size);

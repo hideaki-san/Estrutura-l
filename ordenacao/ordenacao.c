@@ -215,54 +215,61 @@ O PROCESSO SE REPETE ATE TODAS AS INSTANCIAS SEREM REALIZADAS E TERMINAR O PRIME
     }
   }
 
-int quick(int *vetor, int inicio, int fim)
+int quick(int *vetor, int inicio, int fim, dados *dado)
   {
   int esq = inicio, dir = fim, pivo = *(vetor + inicio);
-  printf("\nesq = %d, dir = %d, pivo = %d\n", esq, dir, pivo);
+  //printf("\nesq = %d, dir = %d, pivo = %d\n", esq, dir, pivo);
+  
   while(esq < dir)
     {
     while(*(vetor + esq) <= pivo)
     {
+    dado->comparacao++;
     esq++;
-    printf("[esq++ = %d] ", esq);
+    //printf("[esq++ = %d] ", esq);
     }
     
     while(*(vetor + dir) > pivo)
     {
+    dado->comparacao++;
     dir--;
-    printf("[dir-- = %d] ", dir);
+    //printf("[dir-- = %d] ", dir);
     }
 
     if(esq < dir)
-      swap((vetor + dir), (vetor + esq));  
+    {
+    dado->troca++;
+    swap((vetor + dir), (vetor + esq));  
+    }
     }
   
-  printf("\nesq = %d, dir = %d, pivo = %d", esq, dir, pivo);
+  //printf("\nesq = %d, dir = %d, pivo = %d", esq, dir, pivo);
 
   *(vetor + inicio) = *(vetor + dir);
   *(vetor + dir) = pivo;
   return dir;
   }
 
-void quicksort(int *vetor, int inicio, int fim)
+void quicksort(int *vetor, int inicio, int fim, dados *dado)
   {
+  printf("tese");
   if(inicio < fim)
     {
-    int pivo = quick(vetor, inicio, fim);
-    quicksort(vetor, inicio, pivo - 1);
-    quicksort(vetor, pivo + 1, fim);
+    int pivo = quick(vetor, inicio, fim, dado);
+    quicksort(vetor, inicio, pivo - 1, dado);
+    quicksort(vetor, pivo + 1, fim, dado);
     }
   }
 
 dados *dadosCriar()
   {
-  dados *merge_inf = (dados *)calloc(1, sizeof(dados));
-  return merge_inf;
+  dados *inf = (dados *)calloc(1, sizeof(dados));
+  return inf;
   }
 
 void dadosPrint(dados *dado, FILE *arq, float tempo, int size)
   {
-  fprintf(arq,"\nMERGE ; %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
+  fprintf(arq,"\nQUICK ; %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
   }
 
 void dadosLiberar(dados *dado)
