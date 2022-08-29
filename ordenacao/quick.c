@@ -11,7 +11,7 @@ float quick_tempo;
 dados *quick_info;
 quick_info = dadosCriar();
 
-int size = 699999;
+int size = 1000000;
 int inicio = 0, fim = (size - 1);
 
 int *vet =(int *)malloc(size * sizeof(int));
