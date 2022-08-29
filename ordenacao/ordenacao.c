@@ -217,6 +217,7 @@ int quick(int *vetor, int inicio, int fim, dados *dado)
     if(c == fim)
       return 0;
     }
+
 /*
 COMPARACAO COM O PIVO FEITA DA ESQUERDA PARA A DIREITA E DA DIREITA PARA A ESQUERDA
 O LADO ESQUERDO RECEBE OS VALORES MENORES OU IGUAIS AO PIVO
