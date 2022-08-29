@@ -122,15 +122,11 @@ PARAMETRO DE COMPRIMENTO DO VETOR E NAO DA POSICAO
   subVet1 =(int *)calloc(m1, sizeof(int));
   subVet2 =(int *)calloc(m2, sizeof(int));
 
-  //printf("\nvalor m1 = %d, m2 = %d", m1, m2);
-
   for(int n = 0; n < m1; n++)
     *(subVet1 + n) = *(vetor + (inicio + n));
-  //printf("\nvetor = %d -> subVet1 = %d", *(vetor + (inicio + n)), *(subVet1 + n));
 
   for(int n = 0; n < m2; n++)  
     *(subVet2 + n) = *(vetor + ((meio + 1) + n));
-  //printf("\nvetor = %d -> subVet2 = %d", *(vetor + ((meio + 1) + n)), *(subVet2 + n));
 
 /*
 VARIAVEIS DE CONTROLE
@@ -151,16 +147,12 @@ z(POSICAO DE REFERENCIA PARA O VETOR PRINCIPAL)
       {
       *(vetor + z) = *(subVet1 + i);
       dado->troca++;
-      //printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
-      //printf("\nsubVet1 -> vetor[%d] = %d", z, *(vetor + z));
       i++;
       }
     else
       {
       *(vetor + z) = *(subVet2 + f);
       dado->troca++;
-      //printf("\nsubVet1 = %d | subVet2 = %d", *(subVet1 + i), *(subVet2 + f));
-      //printf("\nsubVet2 -> vetor[%d] = %d", z, *(vetor + z));
       f++;
       } 
     z++;
@@ -184,8 +176,6 @@ z(POSICAO DE REFERENCIA PARA O VETOR PRINCIPAL)
     z++;
     }
 
-  //printf("\n\n");
-  //printVetor(vetor, (fim+1));
   dado->varredura++;
   free(subVet1);
   free(subVet2);
@@ -210,30 +200,41 @@ NESSE RETORNO O SEGUNDO 'mergesort' E CHAMADO REALIZANDO O MESMO CAMINHO DA LINH
 TERMINANDO AS DUAS METADES O 'merge' E CHAMADO REALIZANDO ASSIM A ORDENACAO ENTRE AS DUAS 'mergesort' DESSA INSTANCIA
 O PROCESSO SE REPETE ATE TODAS AS INSTANCIAS SEREM REALIZADAS E TERMINAR O PRIMEIRO 'mergesort' CHAMADO, COM O VETOR ORDENADO
 */
-    //printf("\n\ninicio = %d, meio = %d, fim = %d\n", inicio, meio, fim);
     merge(vetor, inicio, meio, fim, dado);
     }
   }
 
+
 int quick(int *vetor, int inicio, int fim, dados *dado)
   {
   int esq = inicio, dir = fim, pivo = *(vetor + inicio);
-  //printf("\nesq = %d, dir = %d, pivo = %d\n", esq, dir, pivo);
-  
+
+//VERIFICACAO DE VETOR JA ORDENADO 
+  int c = 0;
+  while(*(vetor + c) < *(vetor + c + 1))
+    {
+    c++;
+    if(c == fim)
+      return 0;
+    }
+/*
+COMPARACAO COM O PIVO FEITA DA ESQUERDA PARA A DIREITA E DA DIREITA PARA A ESQUERDA
+O LADO ESQUERDO RECEBE OS VALORES MENORES OU IGUAIS AO PIVO
+O LADO DIREITO VAI RECEBER OS VALORES MAIORES QUE O PIVO
+ASSIM A TROCA E FEITA ENTRE AS REFERENCIAS DA ESQUERDA E DA DIREITA
+*/
   while(esq < dir)
     {
     while(*(vetor + esq) <= pivo)
     {
     dado->comparacao++;
     esq++;
-    //printf("[esq++ = %d] ", esq);
     }
     
     while(*(vetor + dir) > pivo)
     {
     dado->comparacao++;
     dir--;
-    //printf("[dir-- = %d] ", dir);
     }
 
     if(esq < dir)
@@ -242,9 +243,9 @@ int quick(int *vetor, int inicio, int fim, dados *dado)
     swap((vetor + dir), (vetor + esq));  
     }
     }
-  
-  //printf("\nesq = %d, dir = %d, pivo = %d", esq, dir, pivo);
 
+//COLOCA O PIVO ENTRE AS POSICOES DE ESQUERDA E DIREITA, FICANDO ASSIM NA POSICAO CORRETA DO VETOR
+//pivo QUE E O INICIO TROCA COM O ULTIMA POSICAO DOS VALORES MENORES QUE ELE('dir')
   *(vetor + inicio) = *(vetor + dir);
   *(vetor + dir) = pivo;
   return dir;
@@ -252,7 +253,6 @@ int quick(int *vetor, int inicio, int fim, dados *dado)
 
 void quicksort(int *vetor, int inicio, int fim, dados *dado)
   {
-  printf("tese");
   if(inicio < fim)
     {
     int pivo = quick(vetor, inicio, fim, dado);
@@ -269,7 +269,7 @@ dados *dadosCriar()
 
 void dadosPrint(dados *dado, FILE *arq, float tempo, int size)
   {
-  fprintf(arq,"\nQUICK ; %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
+  fprintf(arq,"\n %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
   }
 
 void dadosLiberar(dados *dado)
