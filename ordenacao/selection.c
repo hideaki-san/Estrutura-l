@@ -5,23 +5,22 @@
 
 int main()
   {
-  FILE *arq;
-  
-  arq = fopen("dados_execucao.csv", "a");
+  int size = 1000, c = 0;
+  vetor *vet = vetorCriar(size);
 
-  int size = 100000, c = 0;
-  int *vetor =(int *) malloc(size * sizeof(int));
-
-  while(c < size)
+  for(c; c < size; c++)
     {
-    *(vetor + c) = rand() % 1000;
-    c++;
+    float valor = rand() % size;
+    vetorInserir(vet, valor);
     }
 
-  selection(vetor, size, arq);
+  FILE *arq;
+  arq = fopen("dados_execucao.csv", "a");
+  
+  selection(vet, size, arq);
 
-  free(vetor);
-  vetor = NULL;
+  vetorExcluir(vet);
+  fclose(arq);
 
   return 0;
   }

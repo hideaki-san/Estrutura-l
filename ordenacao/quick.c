@@ -5,37 +5,38 @@
 
 int main()
 {
-time_t quick_inicio, quick_final;
+time_t quick_init, quick_end;
 float quick_tempo;
+
+int size = 1000000;
+int inicio = 0, fim = (size - 1);
+vetor *vet = vetorCriar(size);
+
+for(int c = 0; c < size; c++)
+  {
+  float valor = rand() % size;
+  vetorInserir(vet, valor);
+  }
 
 dados *quick_info;
 quick_info = dadosCriar();
 
-int size = 1000000;
-int inicio = 0, fim = (size - 1);
-
-int *vet =(int *)malloc(size * sizeof(int));
-
-for(int n = 0; n < size; n++)
-  *(vet + n) = rand() % size;
-
-quick_inicio = clock();
+quick_init = clock();
 quicksort(vet, inicio, fim, quick_info);
-quick_final = clock();
-quick_tempo = ((float)(quick_final - quick_inicio) / CLOCKS_PER_SEC);
+quick_end = clock();
+quick_tempo = ((float)(quick_end - quick_init) / CLOCKS_PER_SEC);
 
 printf("\n(TEMPO DE EXECUCAO): %f(s)\n", quick_tempo);
 
-//FILE *arq;
-//arq = fopen("dados_execucao.csv", "a");
+FILE *arq;
+arq = fopen("dados_execucao.csv", "a");
 
-//fprintf(arq,"QUICK ;");
-//dadosPrint(quick_info, arq, quick_tempo, size);
+fprintf(arq,"\nQUICK ;");
+dadosPrint(quick_info, arq, quick_tempo, size);
 
-free(vet);
+vetorExcluir(vet);
 dadosLiberar(quick_info);
-//fclose(arq);
+fclose(arq);
 
-vet = NULL;
 return 0;
 }
