@@ -267,7 +267,7 @@ int meio;
 int quick(vetor *vetor, int inicio, int fim, dados *dado)
   {
   int esq = inicio, dir = fim; 
-  float pivo = vetor->vetdata[inicio];
+  float pivo = vetor->vetdata[fim];
 
 /*
 COMPARACAO COM O PIVO FEITA DA ESQUERDA PARA A DIREITA E DA DIREITA PARA A ESQUERDA
@@ -299,10 +299,10 @@ ASSIM A TROCA E FEITA ENTRE AS REFERENCIAS DA ESQUERDA E DA DIREITA
 //COLOCA O PIVO ENTRE AS POSICOES DE ESQUERDA E DIREITA, FICANDO ASSIM NA POSICAO CORRETA DO VETOR
 //pivo QUE E O INICIO TROCA COM O ULTIMA POSICAO DOS VALORES MENORES QUE ELE('dir')
  
-  vetor->vetdata[inicio] = vetor->vetdata[dir];
-  vetor->vetdata[dir] = pivo;
+  vetor->vetdata[fim] = vetor->vetdata[esq];
+  vetor->vetdata[esq] = pivo;
   
-  return dir;
+  return esq;
   }
 
 void quicksort(vetor *vetor, int inicio, int fim, dados *dado)
