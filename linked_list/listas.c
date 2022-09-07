@@ -110,20 +110,29 @@ void listaAddOrdenado(list *L, int valor)
 if(L == NULL)
   {
   L = listaIniciar(valor);
+  return;
   }
+  
 info *aux = L->ref;
 
-while(aux->valor > valor)
+while(aux->prox != NULL)
   {
-  if(aux->prox->valor < valor)
+  if(aux->prox->valor > valor)
     {
     info *dados =(info *)calloc(1, sizeof(info));
     dados->valor = valor;
     dados->prox = aux->prox;
     aux->prox = dados;
+    L->size++;
+    return;
     }
   aux = aux->prox;
   }
+info *dados =(info *)calloc(1, sizeof(info));
+dados->valor = valor;
+dados->prox = aux->prox;
+aux->prox = dados;
+L->size++;
 }
 
 void listaImprimir(list *L)
@@ -136,4 +145,20 @@ while(aux != NULL)
   aux = aux->prox;
   }
 printf("[NULL]");
+}
+
+//ARRUMAR...
+void listaFree(list *L)
+{
+info *aux = L->ref, *marcador;
+for(int f = 0; f <= L->size; f++)
+  {
+  marcador = aux;
+  aux = aux->prox;
+  free(marcador);
+  marcador = NULL;
+  }
+
+free(L);
+L = NULL;
 }
