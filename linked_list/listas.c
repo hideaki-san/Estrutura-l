@@ -147,16 +147,14 @@ while(aux != NULL)
 printf("[NULL]");
 }
 
-//ARRUMAR...
 void listaFree(list *L)
 {
-info *aux = L->ref, *marcador;
-for(int f = 0; f <= L->size; f++)
+info *aux = L->ref;
+for(int f = 1; f <= L->size; f++)
   {
-  marcador = aux;
-  aux = aux->prox;
-  free(marcador);
-  marcador = NULL;
+  L->ref = aux->prox;
+  free(aux);
+  aux = L->ref;
   }
 
 free(L);
