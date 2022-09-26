@@ -13,4 +13,8 @@ void listaAddOrdenado(list *L, int valor);
 void listaImprimir(list *L);
 void listaFree(list *L);
 
+//ADICIONAR
+void listaDeletar(list *L, int valor);
+//void listaOrdenar(list *L);
+
 #endif

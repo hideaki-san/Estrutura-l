@@ -35,47 +35,34 @@ return L;
 
 void listaAddInicio(list *L, int valor)
 {
-if(L == NULL)
-  {
-  L = listaIniciar(valor);
-  return;
-  }
-  else
-  {
   info *dados =(info *)calloc(1, sizeof(info));
   dados->valor = valor;
   dados->prox = L->ref;
   L->ref = dados;
   L->size++;
-  }
+  return;
 }
 
 void listaAddFinal(list *L, int valor)
 {
-if(L == NULL)
-  {
-  L = listaIniciar(valor);
-  }
-  else
-  {
   info *aux = L->ref;
   while(aux->prox != NULL)
+  {
     aux = aux->prox;
-  
-  aux->prox = infoCriar(valor);
   }
+  aux->prox = infoCriar(valor);
+  L->size++;
+  return;
 }
+
 
 void listaAddMeio(list *L, int pos, int valor)
 {
-if(L->size < pos)
+if(pos > L->size || pos <= 0)
   {
   printf("\nINSERIDO NO FINAL DA LISTA(posicao nao existe)\n");
+  system("pause");
   listaAddFinal(L, valor);
-  }
-if(L == NULL)
-  {
-  L = listaIniciar(valor);
   return;
   }
   else
@@ -102,17 +89,12 @@ if(L == NULL)
   dados->prox = aux->prox;
   aux->prox = dados;  
   L->size++;
+  return;
   }
 }
 
 void listaAddOrdenado(list *L, int valor)
-{
-if(L == NULL)
-  {
-  L = listaIniciar(valor);
-  return;
-  }
-  
+{ 
 info *aux = L->ref;
 
 while(aux->prox != NULL)
@@ -133,6 +115,7 @@ dados->valor = valor;
 dados->prox = aux->prox;
 aux->prox = dados;
 L->size++;
+return;
 }
 
 void listaImprimir(list *L)
@@ -144,7 +127,40 @@ while(aux != NULL)
   printf("[%d]->", aux->valor);
   aux = aux->prox;
   }
-printf("[NULL]");
+printf("[NULL]\n\n");
+}
+
+void listaDeletar(list *L, int valor)
+{
+info *aux = L->ref, *ref;
+  
+if(aux->valor == valor)
+  {
+  L->ref = aux->prox;
+  free(aux);
+  aux == NULL;
+  L->size--;
+  return;
+  }
+
+while(aux->valor != valor)
+  {
+
+  ref = aux;
+  aux = aux->prox;
+  
+  if(aux == NULL)
+    {
+    printf("\nVALOR NAO ENCONTRADO NA LISTA\n");
+    system("pause");
+    return;
+    }
+  }
+
+ref->prox = aux->prox;
+free(aux);
+aux == NULL;
+L->size--;
 }
 
 void listaFree(list *L)
