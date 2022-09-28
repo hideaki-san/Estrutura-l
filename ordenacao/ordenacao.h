@@ -9,12 +9,12 @@ void swap(float *n, float *m);
 //FAZ A COMPARACAO SEMPRE COM A POSICAO ADJACENTE 
 //CASO POSICAO ATUAL SEJA MAIOR QUE A PROXIMA OCORRE A TROCA
 //LEVA O MAIOR VALOR PARA A POSICAO FINAL ONDE ELE SEJA O MAIOR
-void bubble(vetor *vetor, int size, FILE *arq);
+void bubble(vetor *vetor, int size);
 
 //FAZ A COMPARACAO DA POSICAO ATUAL COM TODAS AS OUTRAS
 //CASO POSICAO ATUAL SEJA MAIOR QUE ALGUM VALOR DO VETOR PERCORRIDO
 //MENOR VALOR VAI PARA A PRIMEIRA POSICAO EM QUE ELE SEJA O MENOR 
-void selection(vetor *vetor, int size, FILE *arq);
+void selection(vetor *vetor, int size);
 
 //FAZ A SEPARACAO DO VETOR ATE TAMANHO DO VETOR = 1
 int mergesort(vetor *vetor, int inicio, int fim, dados *dado);
@@ -29,7 +29,7 @@ int quick(vetor *vetor, int inicio, int fim, dados *dado);
 
 //DADOS DAS TROCAS, VARREDURAS E COMPARACOES
 dados *dadosCriar();
-void dadosPrint(dados *dado, FILE *arq, float tempo, int size);
+void dadosPrint(dados *dado, float tempo, int size);
 void dadosLiberar(dados *dado);
 
 vetor *vetorCriar(int size);

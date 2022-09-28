@@ -44,7 +44,7 @@ void vetorImprimir(vetor *vet)
     for(int c = 0; c < vet->vetqnt;  c++)
       printf("[%.3f] ", *(vet->vetdata + c));
  
-    //printf("\n\nTAMANHO(max): %d\nQUANTIDADE(atual): %d\n", vet->vetsize, vet->vetqnt);
+    printf("\n\nTAMANHO(max): %d\nQUANTIDADE(atual): %d\n", vet->vetsize, vet->vetqnt);
     } 
   }
 
@@ -53,14 +53,14 @@ int vetorSize(vetor *vet)
   return vet->vetsize;
   }
 
-int vetorQuantidade(vetor *vet)
+int vetorQnt(vetor *vet)
   {
   return vet->vetqnt;
   }
 
 float vetorValor(const vetor *vet, int indice)
   {
-  if(indice <= 0 || indice > vet->vetqnt)
+  while(indice <= 0 || indice > vet->vetqnt)
     {
     printf("Indice definido NAO COMPATIVEL com tamanho do vetor.\nInsira posicao valida: ");
     fflush(stdin);
@@ -95,9 +95,9 @@ dados *dadosCriar()
   return inf;
   }
 
-void dadosPrint(dados *dado, FILE *arq, float tempo, int size)
+void dadosPrint(dados *dado, float tempo, int size)
   {
-  fprintf(arq," %d ; %f ; %d ; %d ; %d ", size, tempo, dado->troca, dado->comparacao, dado->varredura);
+  printf("TAMANHO> %d\nTEMPO(s)> %f\nTROCAS> %d\nCOMPARACAO> %d\nVARREDURAS> %d\n", size, tempo, dado->troca, dado->comparacao, dado->varredura);
   }
 
 void dadosLiberar(dados *dado)
@@ -108,11 +108,11 @@ void dadosLiberar(dados *dado)
 
 
 //LINHA 111 - end (métodos de ordenacao)
-void bubble(vetor *vet, int size, FILE *arq)
+void bubble(vetor *vet, int size)
   {
   time_t bub_init, bub_end;
   float bub_tempo;
-  int troca = 0, varredura = 0, comparacao = 0;
+  int troca = 0, varredura = 0, comparacao = 0, ref = 0;
   
   bub_init = clock();
 
@@ -124,24 +124,33 @@ void bubble(vetor *vet, int size, FILE *arq)
         {
         swap(&vet->vetdata[m], &vet->vetdata[m + 1]);
         troca++;
+        ref++;
         }
       comparacao++; 
       }
+    if(ref == 0)
+      {
+      bub_end = clock();
+      bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
+      printf("\n(TEMPO DE EXECUCAO)> %f[s]\nTROCAS> %d\nCOMPARACOES> %d\nVARREDURAS> %d\n", bub_tempo, troca, comparacao, varredura);  
+      return;
+      }
     varredura++;
+    ref = 0;
     }
   
   bub_end = clock();
   bub_tempo = ((float)(bub_end - bub_init) / CLOCKS_PER_SEC);
 
-  fprintf(arq,"\nBUBBLE ; %d ; %f ; %d ; %d ; %d ", size, bub_tempo, troca, comparacao, varredura);
-  printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", bub_tempo);
+  printf("\n(TEMPO DE EXECUCAO)> %f[s]\nTROCAS> %d\nCOMPARACOES> %d\nVARREDURAS> %d\n", bub_tempo, troca, comparacao, varredura);
   }
 
-void selection(vetor *vetor, int size, FILE *arq)
+
+void selection(vetor *vetor, int size)
   {
   time_t sel_init, sel_end;
   float sel_tempo;
-  int c = 0;
+  
   int troca = 0, varredura = 0, comparacao = 0;
   
   sel_init = clock();
@@ -154,7 +163,7 @@ void selection(vetor *vetor, int size, FILE *arq)
       {
       if(vetor->vetdata[menor] > vetor->vetdata[m])
         menor = m;
-        
+      
       comparacao++;
       }
 
@@ -169,85 +178,70 @@ void selection(vetor *vetor, int size, FILE *arq)
   sel_end = clock();
   sel_tempo = ((float)(sel_end - sel_init) / CLOCKS_PER_SEC);
   
-  fprintf(arq,"\nSELECTION ; %d ; %f ; %d ; %d ; %d ", size, sel_tempo, troca, comparacao, varredura);
-  printf("\n(TEMPO DE EXECUCAO): %f[s]\n\n", sel_tempo);
+  printf("\n(TEMPO DE EXECUCAO)> %f[s]\nTROCAS> %d\nCOMPARACOES> %d\nVARREDURAS> %d\n", sel_tempo, troca, comparacao, varredura);
   }
+
 
 void merge(vetor *vetor, int inicio, int meio, int fim, dados *dado)
+{
+    //comprimento das metade
+int m1 = meio - inicio + 1;
+int m2 = fim - meio;
+    //referencias de posicao no vetor
+int refm1=0, refm2=0, refvet=inicio;
+
+int *vetm1 =(int *)malloc(m1 * sizeof(int));
+int *vetm2 =(int *)malloc(m2 * sizeof(int));
+
+for(int n=0; n < m1; n++)
+    vetm1[n] = vetor->vetdata[inicio + n];
+
+for(int n=0; n < m2; n++)
+    vetm2[n] = vetor->vetdata[meio + n + 1];
+
+while(refm1 < m1 && refm2 < m2)
   {
-/*
-'m1' e 'm'2' FAZEM PARAMETRO PARA AS METADES DO VETOR
-PARAMETRO DE COMPRIMENTO DO VETOR E NAO DA POSICAO
-*/
-  int m1 = meio - inicio + 1;
-  int m2 = fim - meio;
-
-//REFERENCIAS PARA ORDENAR E ATRIBUIR AO VETOR PRINCIPAL
-  float *subVet1, *subVet2;
-
-  subVet1 =(float *)calloc(m1, sizeof(float));
-  subVet2 =(float *)calloc(m2, sizeof(float));
-
-  for(int n = 0; n < m1; n++)
-    *(subVet1 + n) = vetor->vetdata[inicio + n];
-
-  for(int n = 0; n < m2; n++)  
-    *(subVet2 + n) = vetor->vetdata[meio+1+n];
-
-/*
-VARIAVEIS DE CONTROLE
-i(POSICAO DE REFERENCIA PARA A PRIMEIRA METADE)
-f(POSICAO DE REFERENCIA PARA A SEGUNDA METADE)
-z(POSICAO DE REFERENCIA PARA O VETOR PRINCIPAL)
-*/
-  
-  int i = 0, f = 0, z = inicio;
-
-  while(i < m1 && f < m2)
+  if(vetm1[refm1] < vetm2[refm2])
     {
+    vetor->vetdata[refvet] = vetm1[refm1];
+    refm1++;
+    refvet++;
     dado->comparacao++;
-  
-  //TROCA REALIZADA PARA MENOR VALOR DA POSICAO DE REFERENCIA
-
-    if(*(subVet1 + i) <= *(subVet2 + f))
-      {
-      vetor->vetdata[z] = *(subVet1 + i);
-      dado->troca++;
-      i++;
-      }
-    else
-      {
-      vetor->vetdata[z] = *(subVet2 + f);
-      dado->troca++;
-      f++;
-      } 
-    z++;
-    }
-
-//ATRIBUI OS VALORES DAS POSICOES DO VETOR QUE NAO CHEGOU AO FINAL PARA O VETOR PRINCIPAL
-  
-  while(f < m2)
-    {
-    vetor->vetdata[z] = *(subVet2 + f);
     dado->troca++;
-    f++;
-    z++;
     }
-
-  while(i < m1)
+  else
     {
-    vetor->vetdata[z] = *(subVet1 + i);
+    vetor->vetdata[refvet] = vetm2[refm2];
+    refm2++;
+    refvet++;
+    dado->comparacao++;
     dado->troca++;
-    i++;
-    z++;
     }
-
-  dado->varredura++;
-  free(subVet1);
-  free(subVet2);
-  subVet1 = NULL;
-  subVet2 = NULL;
   }
+
+  while(refm1 < m1)
+    {
+    vetor->vetdata[refvet] = vetm1[refm1];
+    refm1++;
+    refvet++;
+    dado->troca++;
+    }
+
+  while(refm2 < m2)
+    {
+    vetor->vetdata[refvet] = vetm2[refm2];
+    refm2++;
+    refvet++;
+    dado->troca++;
+    }
+
+dado->varredura++;
+free(vetm1);
+vetm1=NULL;
+free(vetm2);
+vetm2=NULL;
+}
+
 
 int mergesort(vetor *vetor, int inicio, int fim, dados *dado)
   {
@@ -264,53 +258,53 @@ int meio;
     }
   }
 
-int quick(vetor *vetor, int inicio, int fim, dados *dado)
-  {
-  int esq = inicio, dir = fim; 
-  float pivo = vetor->vetdata[fim];
 
-/*
-COMPARACAO COM O PIVO FEITA DA ESQUERDA PARA A DIREITA E DA DIREITA PARA A ESQUERDA
-O LADO ESQUERDO RECEBE OS VALORES MENORES OU IGUAIS AO PIVO
-O LADO DIREITO VAI RECEBER OS VALORES MAIORES QUE O PIVO
-ASSIM A TROCA E FEITA ENTRE AS REFERENCIAS DA ESQUERDA E DA DIREITA
-*/
-  while(esq < dir)
-    {
-    while(vetor->vetdata[esq] <= pivo)
+int quick(vetor *vetor, int inicio, int fim, dados *dado)
+{
+int pivo = vetor->vetdata[fim], esq = inicio, dir = fim;
+
+if(esq>dir) return 0;
+
+while(dir > esq)
+  {
+
+  while(vetor->vetdata[esq] < pivo)
     {
     dado->comparacao++;
     esq++;
     }
-    
-    while(vetor->vetdata[dir] > pivo)
+  while(vetor->vetdata[dir] >= pivo)
     {
     dado->comparacao++;
     dir--;
     }
 
-    if(esq < dir)
+  if(dir > esq)
     {
+    swap(&vetor->vetdata[dir], &vetor->vetdata[esq]);
     dado->troca++;
-    swap(&vetor->vetdata[dir], &vetor->vetdata[esq]);  
-    }
-    }
+    } 
+  }
 
-//COLOCA O PIVO ENTRE AS POSICOES DE ESQUERDA E DIREITA, FICANDO ASSIM NA POSICAO CORRETA DO VETOR
-//pivo QUE E O INICIO TROCA COM O ULTIMA POSICAO DOS VALORES MENORES QUE ELE('dir')
- 
-  vetor->vetdata[fim] = vetor->vetdata[esq];
-  vetor->vetdata[esq] = pivo;
-  
+if(vetor->vetdata[esq] > pivo)
+  {
+  swap(&vetor->vetdata[esq], &vetor->vetdata[fim]);
+  dado->troca++;
+  dado->varredura++;
   return esq;
   }
 
+dado->varredura++;
+return esq;
+}
+
+
 void quicksort(vetor *vetor, int inicio, int fim, dados *dado)
+{
+if(inicio < fim)
   {
-  if(inicio < fim)
-    {
-    int pospivo = quick(vetor, inicio, fim, dado);
-    quicksort(vetor, inicio, pospivo - 1, dado);
-    quicksort(vetor, pospivo + 1, fim, dado);
-    }
+  int posicaoPivo = quick(vetor, inicio, fim, dado);
+  quicksort(vetor, inicio, posicaoPivo-1, dado);
+  quicksort(vetor, posicaoPivo+1, fim, dado);
   }
+}

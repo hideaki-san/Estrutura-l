@@ -13,14 +13,10 @@ int main()
     float valor = rand() % size;
     vetorInserir(vet, valor);
     }
-
-  FILE *arq;
-  arq = fopen("dados_execucao.csv", "a");
-
-  bubble(vet, size, arq); 
-
+  
+  bubble(vet, size); 
+  vetorImprimir(vet);
   vetorExcluir(vet);
-  fclose(arq);
 
   return 0;
   }
