@@ -9,6 +9,7 @@ vetor *objetoCriar(float valor);
 void listaInicio(doubleList *DL, float valor);
 void listaFim(doubleList *DL, float valor);
 void listaMeio(doubleList *DL, int posicao, float valor);
+void listaOrdenar(doubleList *DL);
 void listaImprimir(doubleList *DL);
 void listaLiberar(doubleList *DL);
 void listaDeletar(doubleList *DL, float valor);

@@ -6,9 +6,23 @@ int main()
 {
 
 doubleList *DL = listaCriar(23.3);
-listaInicio(DL, 32.5);
-listaInicio(DL, 11.4);
-listaFim(DL, 22);
+
+for(int m = 0; m < 7; m++)
+{
+float rnd = rand() % 50;
+listaInicio(DL, rnd);
+}
+
+for(int m = 0; m < 7; m++)
+{
+float rnd = rand() % 50;
+listaFim(DL, rnd);
+}
+
+
+listaImprimir(DL);
+
+listaOrdenar(DL);
 
 listaImprimir(DL);
 

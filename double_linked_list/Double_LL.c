@@ -31,6 +31,7 @@ doubleList *listaCriar(float valor)
 doubleList *DL =(doubleList *)calloc(1, sizeof(doubleList));
 DL->inicio = vetorCriar(valor);
 DL->fim = DL->inicio;
+DL->tamanho++;
 }
 
 void listaInicio(doubleList *DL, float valor)
@@ -46,6 +47,7 @@ if(aux->prox == aux)
   aux->prox = novo;
 
 DL->inicio = novo;
+DL->tamanho++;
 }
 
 void listaFim(doubleList *DL, float valor)
@@ -61,22 +63,45 @@ if(aux->ant == aux)
   aux->ant = novo;
 
 DL->fim = novo;
+DL->tamanho++;
+}
+
+
+//ordenacao feita pela lógica de selection sort
+void listaOrdenar(doubleList *DL)
+{
+vetor *aux, *ref, *troca;
+float T;
+
+for(aux = DL->inicio; aux->prox != DL->inicio; aux = aux->prox)
+  {
+  troca = aux;
+  
+  for(ref = DL->fim; ref != aux; ref = ref->ant)
+    if(troca->valor > ref->valor)
+      troca = ref;
+  
+  T = troca->valor;
+  troca->valor = aux->valor;
+  aux->valor = T;
+  }
 }
 
 void listaImprimir(doubleList *DL)
 {
 vetor *aux = DL->inicio;
+printf("\nTAMANHO> %d\n\n", DL->tamanho);
 while(aux != DL->fim)
   {
   printf("[%.2f]->", aux->valor);
   aux = aux->prox;
   }
-printf("[%.2f]->(inicio)[%.2f]", aux->valor, DL->inicio->valor);
+printf("[%.2f]->(inicio)[%.2f]\n", aux->valor, DL->inicio->valor);
 }
 
 void listaLiberar(doubleList *DL)
 {
-vetor *aux;
+vetor *aux = DL->inicio;
 while(aux != DL->fim)
   {  
   DL->inicio = aux->prox;
