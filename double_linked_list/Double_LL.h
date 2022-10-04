@@ -10,8 +10,10 @@ void listaInicio(doubleList *DL, float valor);
 void listaFim(doubleList *DL, float valor);
 void listaMeio(doubleList *DL, int posicao, float valor);
 void listaOrdenar(doubleList *DL);
+void listaTroca(doubleList *DL, int p1, int p2);
 void listaImprimir(doubleList *DL);
+void listaConsulta(doubleList *DL, int pos);
 void listaLiberar(doubleList *DL);
-void listaDeletar(doubleList *DL, float valor);
+void listaDeletar(doubleList *DL, int pos);
 
 #endif
