@@ -7,22 +7,35 @@ int main()
 {
 srand((unsigned) time(NULL));
 
-doubleList *DL = listaCriar(rand() %140/10.0);
+doubleList *lista1 = listaCriar();
+doubleList *lista2 = listaCriar();
+
+for(int m = 0; m < 3; m++)
+  listaInicio(lista1, rand() % 130/10.0);
 
 for(int m = 0; m < 4; m++)
-  listaInicio(DL, rand() % 130/10.0);
-
-for(int m = 0; m < 5; m++)
-  listaFim(DL, rand() % 150/10.0);
+  listaFim(lista1, rand() % 150/10.0);
 
 
-listaImprimir(DL);
-listaDeletar(DL, 5);
-listaOrdenar(DL);
-listaTroca(DL, 3, 6);
-listaImprimir(DL);
+for(int m = 0; m < 4; m++)
+  listaInicio(lista2, rand() % 130/10.0);
 
-listaLiberar(DL);
+for(int m = 0; m < 3; m++)
+  listaFim(lista2, rand() % 150/10.0);
+
+
+listaImprimir(lista1);
+listaImprimir(lista2);
+
+doubleList *novo = listaUnir(lista1, lista2);
+
+listaImprimir(novo);
+
+listaMeio(novo, 5, 33.33);
+
+listaImprimir(novo);
+
+listaLiberar(novo);
 
 return 0;
 }

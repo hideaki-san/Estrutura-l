@@ -4,7 +4,7 @@
 typedef struct LISTA doubleList;
 typedef struct OBJETO vetor;
 
-doubleList *listaCriar(float valor);
+doubleList *listaCriar();
 vetor *objetoCriar(float valor);
 void listaInicio(doubleList *DL, float valor);
 void listaFim(doubleList *DL, float valor);
@@ -15,5 +15,6 @@ void listaImprimir(doubleList *DL);
 void listaConsulta(doubleList *DL, int pos);
 void listaLiberar(doubleList *DL);
 void listaDeletar(doubleList *DL, int pos);
+doubleList *listaUnir(doubleList *DL1, doubleList *DL2);
 
 #endif
