@@ -192,6 +192,7 @@ if(posicao == DL->tamanho)
 
 printf("\nINSERIDO> [%d](%.2f)\n", posicao, valor);
 }
+
 //ordenacao feita pela lógica de selection sort
 void listaOrdenar(doubleList *DL)
 {
@@ -244,9 +245,48 @@ void listaDeletar(doubleList *DL, int pos)
 {
 if(pos <= 0 || pos > DL->tamanho || DL->inicio == NULL) return;
 
+vetor *aux, *auxR;
+
+if(pos == 1)
+  {
+  aux = DL->inicio; 
+  auxR = DL->fim;
+  DL->inicio = aux->prox;
+  auxR->prox = DL->inicio;
+  auxR = aux->prox;
+  auxR->ant = DL->fim;
+  
+  printf("\nOBJETO> [%d](%.2f) (excluido)\n", pos, aux->valor);
+
+  free(aux);
+  aux=NULL;
+  DL->tamanho--;
+  system("pause");
+  return;
+  }
+
+if(pos == DL->tamanho)
+  {
+  aux = DL->fim;
+  auxR = DL->inicio;
+  DL->fim = aux->ant;
+  auxR->ant = DL->fim;
+  auxR = aux->ant;
+  auxR->prox = DL->inicio;
+
+  printf("\nOBJETO> [%d](%.2f) (excluido)\n", pos, aux->valor);
+
+  free(aux);
+  aux=NULL;
+  DL->tamanho--;
+  system("pause");
+  return;
+  }
+
 if(pos <= DL->tamanho/2)
   {
-  vetor *aux = DL->inicio, *ref_A, *ref_P;
+  aux = DL->inicio;
+  vetor *ref_A, *ref_P;
   for(int n = 1; n < pos; n++)
     aux = aux->prox;
 
@@ -255,17 +295,11 @@ if(pos <= DL->tamanho/2)
 
   ref_A->prox = ref_P;
   ref_P->ant = ref_A;
-
-  printf("\nOBJETO> [%d](%.2f) (excluido)\n", pos, aux->valor);
-
-  free(aux);
-  aux = NULL;
-  DL->tamanho--;
-  return;
   }
 else
   {
-  vetor *aux = DL->fim, *ref_A, *ref_P;
+  aux = DL->fim;
+  vetor *ref_A, *ref_P;
   for(int n = DL->tamanho; n > pos; n--)
     aux = aux->prox;
 
@@ -274,6 +308,7 @@ else
 
   ref_A->prox = ref_P;
   ref_P->ant = ref_A;
+  }
 
   printf("\nOBJETO> [%d](%.2f) (excluido)\n", pos, aux->valor);
 
@@ -281,8 +316,9 @@ else
   free(aux);
   aux = NULL;
   DL->tamanho--;
+  system("pause");
   return;
-  }
+  
 }
 
 
@@ -336,6 +372,11 @@ return novaLista;
 
 void listaImprimir(doubleList *DL)
 {
+if(DL->tamanho == 0) 
+  {
+  printf("\nVAZIO\n");
+  return;
+  }
 vetor *aux = DL->inicio;
 int c = 1;
 printf("\nTAMANHO> %d\n", DL->tamanho);
